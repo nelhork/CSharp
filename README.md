@@ -12,7 +12,7 @@ class Person
 	public string LastName;
 	public int Age;
 
-	// Конструктор
+	// Конструктор с параметрами
 	public Person(string firstName, string lastName, int age)
 	{
 		FirstName = firstName; 
@@ -29,30 +29,39 @@ class Person
 
 **Пример использования класса:**
 ```C#
-class Program
-{
-	static void Main(string[] args)
-	{
-		Person person1 = new Person("John", "Doe", 29);
-		Console.WriteLine($"Name: {person1.FirstName} {person1.LastName}, Age: {person1.Age}");
-		Console.ReadKey();
-	}
+using System;
 
-}
 class Person
 {
-	// Поля класса
-	public string FirstName;
-	public string LastName;
-	public int Age;
+    // Поля класса
+    public string FirstName;
+    public string LastName;
+    public int Age;
 
-	public Person(string firstName, string lastName, int age)
-	{
-		FirstName = firstName; 
-		LastName = lastName; 
-		Age = age;
-	}
+    public Person(string firstName, string lastName, int age)
+    {
+	// Инициализация полей класса
+        FirstName = firstName;
+        LastName = lastName;
+        Age = age;
+    }
 }
+
+class Program
+{
+    static void Main(string[] args)
+    {
+	// Создание объекта класса
+        Person person1 = new Person("John", "Doe", 29);
+
+        Console.WriteLine($"Name: {person1.FirstName} {person1.LastName}, Age: {person1.Age}");
+
+        Console.ReadKey();
+    }
+}
+// Обратите внимание, что в большинстве приложений точка входа представляет собой метод Main,
+// который является статическим методом и может находиться внутри любого класса. Обычно создается
+// класс с именем Program, и метод Main используется в качестве точки входа для вашего приложения.
 ```
 # Модификаторы доступа в C\#
 ### Введение в модификаторы доступа
@@ -66,19 +75,23 @@ class Person
     
 3. **internal**: Данные с модификатором `internal` доступны только в методах текущей сборки. Этот модификатор ограничивает доступ к членам класса извне сборки, в которой они определены.
     
-4. **protected internal**: Данные с модификатором `protected internal` доступны только методам вложенного или производного типа класса и любым методам текущей сборки. Это сочетание уровней `protected` и `internal`, что позволяет доступ как наследникам, так и внутри текущей сборки.
+4. **protected internal**: Члены класса, помеченные модификатором `protected internal`, сочетают в себе функциональность `protected` и `internal`. Они доступны внутри текущей сборки и в производных классах, независимо от того, находятся ли они в той же сборке или в другой.
     
 5. **public**: Данные с модификатором `public` доступны всем методам во всех сборках. Это наиболее открытый уровень доступа.
+
 ### По умолчанию
 Если вы не указываете явно модификатор доступа для класса или его членов, компилятор C# использует уровни доступа по умолчанию:
 
 - Для членов класса: `private` (т.е., они видны только внутри класса).
 - Для самого класса: `internal` (только внутри сборки).
+- 
 ### Переопределение членов в производных классах
 При наследовании, если вы хотите переопределить член базового класса в производном классе, модификатор доступа у переопределенного члена должен быть таким же или менее ограниченным, чем у базового члена. Вы не можете повысить уровень доступа при переопределении члена.
+
 # Поля класса
 ### Введение в поля класса
 Поля класса представляют собой переменные, которые хранят данные для объектов этого класса. Они могут хранить значения стандартных типов данных или ссылки на объекты других классов. Поля класса являются одним из важных строительных блоков для хранения информации в C#.
+
 ### Типы полей
 При объявлении полей класса могут указываться следующие ключевые слова:
 
@@ -87,6 +100,7 @@ class Person
 2. **const**: Ключевое слово `const` используется для объявления константных полей. Значение константных полей не может быть изменено после их инициализации. Поле с модификатором `const` должно быть проинициализировано при объявлении класса. Константные поля являются неявно статическими, поэтому обращение к ним происходит через имя типа.
     
 3. **readonly**: Поля с модификатором `readonly` могут быть использованы только для чтения, и значение таких полей может быть установлено только в конструкторе или непосредственно при объявлении. Они позволяют задать значение динамически, но после этого оно не может быть изменено.
+
 ### Изменяемые и неизменяемые поля
 Поля класса могут быть изменяемыми (read/write) и неизменяемыми (readonly). Изменяемые поля позволяют многократное изменение их значений во время выполнения программы. Неизменяемые поля более гибкие, чем константы, так как их значение можно задать динамически, но оно не может быть изменено после установки. Важно отметить, что неизменяемость поля ссылочного типа означает неизменность самой ссылки, но не объекта, на который она указывает.
 
@@ -100,7 +114,6 @@ class Person
     public string LastName;
     public int Age;
 
-    // Поле класса
     private static int personCount = 0; // Статическое поле
 
     private const string defaultPhoneNumber = "N/A"; // Константное поле
@@ -122,10 +135,12 @@ class Person
 
     public void DisplayContactInfo()
     {
+        Console.WriteLine();
         Console.WriteLine($"Name: {FirstName} {LastName}");
         Console.WriteLine($"Age: {Age}");
         Console.WriteLine($"Phone: {phoneNumber}");
         Console.WriteLine($"Email: {email}");
+        Console.WriteLine();
     }
 
     public static int GetPersonCount()
@@ -147,19 +162,23 @@ class Program
         Person person2 = new Person("Alice", "Smith", 25, "555-987-6543", "alice@email.com");
 
         person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.GetPersonCount()}");
 
         person1.ChangePhoneNumber("555-999-0000");
-        person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.GetPersonCount()}");
 
-		Console.ReadKey();
+        person1.DisplayContactInfo();
+
+        person2.DisplayContactInfo();
+
+        Console.WriteLine($"\nTotal persons created: {Person.GetPersonCount()}");
+
+        Console.ReadKey();
     }
 }
 ```
 # Конструкторы класса в C\#
 ## Введение в конструкторы
 Конструкторы представляют собой специальные методы класса, которые вызываются неявно при создании объекта с использованием ключевого слова `new`. Они играют важную роль в инициализации объектов и проведении необходимых операций при создании экземпляра класса.
+
 ### Типы конструкторов
 1. **Конструктор по умолчанию**: Этот конструктор не принимает никаких параметров и предоставляется компилятором при создании класса. Его задача - инициализировать все поля объекта значениями по умолчанию. По желанию, вы можете переопределить конструктор по умолчанию для выполнения других инициализаций.
 
@@ -226,7 +245,8 @@ class Program
     }
 }
 ```
-3. **Статический конструктор**: Статический конструктор принадлежит классу, а не объекту, и используется для инициализации статических полей класса. Он вызывается только один раз, до первого обращения к классу или его членам, и не требует модификаторов доступа.
+3. **Статический конструктор**: Статический конструктор принадлежит классу, а не объекту, и используется для инициализации статических полей класса. Статический конструктор выполняется перед первым созданием экземпляра класса или перед первым обращением к любому статическому члену класса.
+(Инициализация статических полей: Статические конструкторы могут быть использованы для инициализации значений статических полей до того, как они будут использованы в программе. Это позволяет гарантировать, что статические поля будут проинициализированы до использования класса.)
 
 Левый пример:
 ```C#
@@ -234,12 +254,12 @@ using System;
 
 class Student
 {
-    private static int studentCount = 0;
+    private static int studentCount;
 
     static Student() // Статический конструктор
     {
-        Console.WriteLine("Static constructor is called.");
-        studentCount = 1;
+        Console.WriteLine("Static constructor is called.\n");
+        studentCount = 0;
     }
 
     public Student()
@@ -260,10 +280,11 @@ class Program
         Student.DisplayStudentCount(); // Вызываем статический метод до создания объектов
 
         Student student1 = new Student();
-        Student student2 = new Student();
+        Student.DisplayStudentCount(); // Вызываем статический метод после создания объекта
 
-        Student.DisplayStudentCount(); // Вызываем статический метод после создания объектов
-        
+        Student student2 = new Student();
+        Student.DisplayStudentCount(); // Вызываем статический метод после создания объекта
+
         Console.ReadKey();
     }
 }
@@ -358,6 +379,7 @@ class Program
 # Ключевое слово `this`
 ### Введение в ключевое слово `this`
 Ключевое слово `this` в C# представляет собой неявную ссылку на текущий экземпляр класса. Это мощный инструмент, который позволяет явно указать, какие члены класса или параметры методов используются внутри текущего объекта. `this` может быть использовано в различных контекстах, и мы рассмотрим несколько типичных случаев его использования.
+
 ### Использование `this` для разрешения конфликта имен
 Один из распространенных случаев использования `this` - это разрешение конфликта имен между параметрами метода и полями класса. Когда имена параметров совпадают с именами полей, `this` помогает явно указать, что мы обращаемся к полям класса.
 
@@ -373,87 +395,43 @@ class Student
     }
 }
 ```
-### Избегание дублирования кода с использованием `this`
-Другим важным случаем использования `this` является избегание дублирования кода при инициализации членов класса. Обычно в классе существует главный конструктор, который содержит код инициализации, а остальные конструкторы вызывают его с различными параметрами, используя `this`.
+### Избегание дублирования кода с использованием this
+Ключевое слово this в C# используется для ссылки на текущий экземпляр класса внутри методов этого класса. Оно чаще всего используется для предотвращения дублирования кода при доступе к членам класса из разных частей класса, таких как конструкторы или методы.
 
 Левый пример:
 ```C#
-using System;
-
-class Student
+public class MyClass
 {
-    private string firstName;
-    private string lastName;
+    private int myValue;
 
-    public Student(string firstName, string lastName)
+    public MyClass(int myValue)
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public void PrintFullName()
-    {
-        Console.WriteLine($"Full Name: {this.firstName} {this.lastName}");
+        this.myValue = myValue; // Использование this для ссылки на поле myValue внутри конструктора
     }
 }
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        Student student1 = new Student("John", "Doe");
-        Student student2 = new Student("Alice", "Smith");
-
-        student1.PrintFullName();
-        student2.PrintFullName();
-    }
-}
 ```
 ### Передача ссылки на текущий объект методу
-Иногда требуется передать методу ссылку на текущий объект. В этом случае `this` используется для передачи ссылки на текущий объект методу.
+Это практика передачи текущего объекта в качестве параметра в методы того же класса. Этот подход может быть полезен, когда метод должен взаимодействовать с текущим объектом или когда методы имеют доступ к приватным полям текущего объекта.
 
 Левый пример:
 ```C#
-using System;
-
-class Student
+public class MyClass
 {
-    private string firstName;
+    private int myValue;
 
-    public Student(string firstName)
+    public void SetMyValue(int newValue)
     {
-        this.firstName = firstName;
+        UpdateValue(this, newValue); // Передача текущего объекта в метод UpdateValue
     }
 
-    public void Greet()
+    private void UpdateValue(MyClass obj, int newValue)
     {
-        Console.WriteLine($"Hello, my name is {this.firstName}.");
-    }
-
-    public void IntroduceYourself(Student otherStudent)
-    {
-        Console.WriteLine($"Hi {otherStudent.firstName}, I'm {this.firstName}.");
+        obj.myValue = newValue; // Использование переданного объекта для обновления значения
     }
 }
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        Student student1 = new Student("John");
-        Student student2 = new Student("Alice");
-
-        student1.Greet();
-        student2.Greet();
-
-        student1.IntroduceYourself(student2);
-        student2.IntroduceYourself(student1);
-    }
-}
 ```
-
-**Индексаторы и ключевое слово `this`**
-`this` также применяется для объявления индексаторов, но это будет рассмотрено в более поздних уроках.
 
 Важно отметить, что использование `this` в статических методах запрещено, так как статические методы существуют на уровне класса и не имеют доступа к объектам класса.
 
@@ -498,6 +476,8 @@ class Program
         Person person1 = new Person("John", "Doe", 30, "555-123-4567", "johndoe@email.com");
 
         person1.DisplayContactInfo();
+
+        Console.ReadKey();
     }
 }
 ```
@@ -512,8 +492,7 @@ class Program
     
 5. **Перегрузка методов (Method Overloading)**: Перегрузка методов позволяет определить несколько методов с одним и тем же именем, но с разными наборами параметров. Это позволяет создавать методы с одинаковыми именами, но разными поведениями, в зависимости от переданных параметров.
     
-
-Используя пример кода, который вы предоставили, давайте внесем некоторые изменения, чтобы продемонстрировать некоторые из этих концепций. Давайте добавим перегрузку методов и возвращаемое значение:
+Внесем некоторые изменения, чтобы продемонстрировать концепцию перегрузки методов. Давайте добавим перегрузку методов и возвращаемое значение:
 ```C#
 using System;
 
@@ -543,28 +522,14 @@ class Person
         personCount++;
     }
 
-    // Конструктор с параметрами
-    public Person(string firstName, string lastName, int age, string phone, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Age = age;
-        phoneNumber = phone;
-        this.email = email;
-        personCount++;
-    }
-
     public void DisplayContactInfo()
     {
+        Console.WriteLine();
         Console.WriteLine($"Name: {FirstName} {LastName}");
         Console.WriteLine($"Age: {Age}");
         Console.WriteLine($"Phone: {phoneNumber}");
         Console.WriteLine($"Email: {email}");
-    }
-
-    public static int GetPersonCount()
-    {
-        return personCount;
+        Console.WriteLine();
     }
 
     public void ChangePhoneNumber(string newPhoneNumber)
@@ -577,12 +542,6 @@ class Person
     {
         phoneNumber = $"+{countryCode} {newPhoneNumber}";
     }
-
-    // Метод с возвращаемым значением
-    public string GetFullName()
-    {
-        return $"{FirstName} {LastName}";
-    }
 }
 
 class Program
@@ -590,241 +549,132 @@ class Program
     static void Main(string[] args)
     {
         Person person1 = new Person();
-        Person person2 = new Person("Alice", "Smith", 25, "555-987-6543", "alice@email.com");
-
         person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.GetPersonCount()}");
+
+        person1.ChangePhoneNumber("555-999-0000");
+        person1.DisplayContactInfo();
 
         // Использование перегруженного метода ChangePhoneNumber
         person1.ChangePhoneNumber(1, "555-999-0000");
         person1.DisplayContactInfo();
-        Console.WriteLine($"Full Name: {person1.GetFullName()}");
-        Console.WriteLine($"Total persons created: {Person.GetPersonCount()}");
+
+        Console.ReadKey();
     }
 }
 ```
 ## ref, out параметры
-Модификаторы `ref` и `out` используются для передачи аргументов методам по ссылке вместо копирования значений. Их использование особенно полезно, когда требуется изменить значение переменной в вызывающем коде из вызванного метода. Основные различия между ними заключаются в том, что переменная, переданная с модификатором `ref`, должна быть инициализирована перед передачей в метод, в то время как переменная, переданная с модификатором `out`, может оставаться неинициализированной и должна быть инициализирована в методе перед возвратом.
+В C# параметры методов могут быть переданы по значению, по ссылке или с использованием ключевых слов ref и out. Вот обзор концепций ref и out:
 
-Давайте изменим ваш код, чтобы продемонстрировать использование модификаторов `ref` и `out`:
+ref параметры:
+- Параметры передаются по ссылке.
+- Используются для передачи переменных с возможностью изменения значения в вызывающем коде.
+- При использовании ref переменная должна быть инициализирована до передачи в метод.
+
+out параметры:
+- Требуют, чтобы метод присваивал значение переменной до ее возврата.
+- Используются для возврата нескольких значений из метода.
+- Переменная, переданная как out параметр, может быть не инициализирована.
+
 ```C#
 using System;
 
-class Person
-{
-    public string FirstName;
-    public string LastName;
-    public int Age;
-
-    // Поле класса
-    private static int personCount = 0; // Статическое поле
-
-    private const string DefaultPhoneNumber = "N/A"; // Константное поле
-
-    private readonly string email; // Неизменяемое поле
-
-    private string phoneNumber; // Изменяемое поле
-
-    // Конструктор по умолчанию
-    public Person()
-    {
-        FirstName = "John";
-        LastName = "Doe";
-        Age = 30;
-        phoneNumber = DefaultPhoneNumber;
-        email = "johndoe@email.com";
-        personCount++;
-    }
-
-    // Конструктор с параметрами
-    public Person(string firstName, string lastName, int age, string phone, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Age = age;
-        phoneNumber = phone;
-        this.email = email;
-        personCount++;
-    }
-
-    public void DisplayContactInfo()
-    {
-        Console.WriteLine($"Name: {FirstName} {LastName}");
-        Console.WriteLine($"Age: {Age}");
-        Console.WriteLine($"Phone: {phoneNumber}");
-        Console.WriteLine($"Email: {email}");
-    }
-
-    public static int GetPersonCount()
-    {
-        return personCount;
-    }
-
-    public void ChangePhoneNumber(string newPhoneNumber)
-    {
-        phoneNumber = newPhoneNumber;
-    }
-
-    // Перегрузка метода ChangePhoneNumber
-    public void ChangePhoneNumber(int countryCode, string newPhoneNumber)
-    {
-        phoneNumber = $"+{countryCode} {newPhoneNumber}";
-    }
-
-    // Метод, использующий модификатор ref
-    public void ModifyAge(ref int newAge)
-    {
-        if (newAge > 0)
-        {
-            Age = newAge;
-        }
-        else
-        {
-            Console.WriteLine("Invalid age input.");
-        }
-    }
-
-    // Метод, использующий модификатор out
-    public void GetNextAge(out int nextAge)
-    {
-        nextAge = Age + 1;
-    }
-}
-
 class Program
 {
+    // Пример с ref параметром
+    public static void ModifyValue(ref int value)
+    {
+        value = value * 2;
+    }
+
+    // Пример с out параметрами
+    public static void GetValues(out int first, out int second)
+    {
+        first = 10;
+        second = 20;
+    }
+
     static void Main(string[] args)
     {
-        Person person1 = new Person();
-        int newAge = 35;
-        Console.WriteLine($"Initial age: {person1.Age}");
+        // Пример с ref параметром
+        int number = 5;
+        Console.WriteLine($"Исходное значение: {number}");
+        ModifyValue(ref number);
+        Console.WriteLine($"Измененное значение с ref: {number}");
 
-        // Использование модификатора ref
-        person1.ModifyAge(ref newAge);
-        Console.WriteLine($"New age after modification: {person1.Age}");
+        // Пример с out параметрами
+        int result1, result2;
+        GetValues(out result1, out result2);
+        Console.WriteLine($"Первое значение с out: {result1}");
+        Console.WriteLine($"Второе значение с out: {result2}");
 
-        // Использование модификатора out
-        int nextAge;
-        person1.GetNextAge(out nextAge);
-        Console.WriteLine($"Next age: {nextAge}");
+        Console.ReadKey();
     }
 }
 
 ```
-В этом примере были добавлены два метода: `ModifyAge` использует модификатор `ref`, чтобы изменить значение переменной `newAge`, переданной в метод, а метод `GetNextAge` использует модификатор `out`, чтобы возвращать новое значение, не инициализируя его перед вызовом метода. В `Main` методе были внесены соответствующие изменения для демонстрации использования этих модификаторов.
-# Создание методов с переменным количеством аргументов
 
+# Создание методов с переменным количеством аргументов
+В C# можно создавать методы с переменным количеством аргументов, используя ключевое слово params. Вот пример цельной программы, демонстрирующий использование метода с переменным числом аргументов:
 ```C#
+using System;
+
 class Program
 {
-	static void Main(string[] args)
-	{
-		Console.WriteLine("Сумма = " + Sum(new int[] { 1,
-			2, 3, 4, 5 }));
-	}
-	private static int Sum(int[] arr)
-	{
-		int res = 0;
-		foreach (int i in arr)
-		res += i;
-		return res;
-	}
+    // Метод с переменным количеством аргументов
+    public static void PrintValues(params int[] values)
+    {
+        Console.WriteLine("Вывод значений:");
+        foreach (int val in values)
+        {
+            Console.WriteLine(val);
+        }
+    }
+
+    static void Main(string[] args)
+    {
+        // Использование метода с переменным количеством аргументов
+        PrintValues(1, 2, 3, 4, 5);
+        PrintValues(6, 7, 8);
+        PrintValues(9);
+
+        Console.ReadKey();
+    }
 }
+
 ```
 Ключевое слово `params` в C# позволяет определить метод с переменным числом аргументов одного типа. Это позволяет методу принимать переменное количество аргументов одного типа, не требуя явного указания количества аргументов при вызове метода. Это удобно, когда необходимо передать переменное количество аргументов в метод.
-```C#
-class Program
-{
-	static void Main(string[] args)
-	{
-		Console.WriteLine("Сумма = " + Sum( 1,
-			2, 3, 4, 5 ));
-	}
-	private static int Sum(params int[] arr)
-	{
-		int res = 0;
-		foreach (int i in arr)
-		res += i;
-		return res;
-	}
-}
-```
 
 # Свойства
-В C# свойства позволяют создавать удобные методы доступа для закрытых полей класса. Они позволяют контролировать доступ к полям, что обеспечивает большую гибкость и безопасность при работе с классами. Свойства позволяют определить методы доступа (геттеры и сеттеры) для чтения и записи значений в поля класса.
+В C# свойства get и set используются для определения методов доступа для чтения и записи значений в приватные поля класса. Это позволяет контролировать доступ к полям класса и управлять проверкой или преобразованием значений перед их установкой или возвратом. Вот пример программы, демонстрирующей использование свойств get и set:
 
-Свойства имеют следующие характеристики:
-
-1. **Геттер (Getter)**: Возвращает значение свойства.
-2. **Сеттер (Setter)**: Устанавливает значение свойства.
-
-Преимущества использования свойств:
-
-1. Обеспечение контроля доступа к полям класса.
-2. Дополнительная логика при получении и установке значений.
-3. Легкость в использовании и понимании.
-
-Пример использования свойств в вашем классе Person:
 ```C#
 using System;
 
-class Person
+public class Person
 {
-    // Поля класса
-    private static int personCount = 0; // Статическое поле
-    private const string DefaultPhoneNumber = "N/A"; // Константное поле
-    private readonly string email; // Неизменяемое поле
-    private string phoneNumber; // Изменяемое поле
+    private string name;
+    private int age;
 
-    // Свойства класса
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
-
-    public string Email
+    public string Name
     {
-        get { return email; }
+        get { return name; }
+        set { name = value; }
     }
 
-    public static int PersonCount
+    public int Age
     {
-        get { return personCount; }
-    }
-
-    public string PhoneNumber
-    {
-        get { return phoneNumber; }
-        set { phoneNumber = value; }
-    }
-
-    // Конструкторы класса
-    public Person()
-    {
-        FirstName = "John";
-        LastName = "Doe";
-        Age = 30;
-        phoneNumber = DefaultPhoneNumber;
-        email = "johndoe@email.com";
-        personCount++;
-    }
-
-    public Person(string firstName, string lastName, int age, string phone, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Age = age;
-        PhoneNumber = phone;
-        this.email = email;
-        personCount++;
-    }
-
-    // Методы класса
-    public void DisplayContactInfo()
-    {
-        Console.WriteLine($"Name: {FirstName} {LastName}");
-        Console.WriteLine($"Age: {Age}");
-        Console.WriteLine($"Phone: {PhoneNumber}");
-        Console.WriteLine($"Email: {Email}");
+        get { return age; }
+        set
+        {
+            if (value >= 0)
+            {
+                age = value;
+            }
+            else
+            {
+                Console.WriteLine("Возраст не может быть отрицательным!");
+            }
+        }
     }
 }
 
@@ -832,85 +682,39 @@ class Program
 {
     static void Main(string[] args)
     {
-        Person person1 = new Person();
-        Person person2 = new Person("Alice", "Smith", 25, "555-987-6543", "alice@email.com");
+        Person person = new Person();
 
-        person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.PersonCount}");
+        // Установка значения через свойство set
+        person.Name = "John Doe";
+        person.Age = 30;
 
-        person1.PhoneNumber = "555-999-0000";
-        person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.PersonCount}");
+        // Получение значения через свойство get
+        Console.WriteLine($"Имя: {person.Name}, Возраст: {person.Age}");
+
+        // Попытка установить отрицательный возраст
+        person.Age = -5;
+
+        Console.ReadKey();
     }
 }
+
 ```
-В этом примере поля `FirstName`, `LastName`, `Age`, `PhoneNumber` были преобразованы в свойства, а также было добавлено свойство `Email` и статическое свойство `PersonCount`. Конструкторы были изменены для использования свойства `PhoneNumber` вместо прямого доступа к полю.
+
 ### Автоматические свойства, инициализация
 Автоматические свойства в C# представляют сокращенный синтаксис для создания свойств класса без явного объявления соответствующих закрытых полей. Они автоматически создают закрытые поля во время компиляции, что упрощает их использование и позволяет сосредоточиться на более важных аспектах разработки.
 
-Для создания автоматических свойств в C# используется следующий синтаксис:
-
-csharpCopy code
-
-`public dataType PropertyName { get; set; }`
-
-где:
-
-- `dataType` - тип данных свойства.
-- `PropertyName` - имя свойства.
-
-Инициализация автоматических свойств происходит с помощью конструкторов класса или непосредственно при объявлении свойства.
-
-Преобразуем предоставленный вами пример, чтобы продемонстрировать использование автоматических свойств:
 ```C#
 using System;
 
-class Person
+public class Person
 {
-    // Статическое поле
-    private static int personCount = 0;
+    public string Name { get; private set; }
+    public int Age { get; private set; }
 
-    // Константное поле
-    private const string DefaultPhoneNumber = "N/A";
-
-    // Неизменяемое поле
-    private readonly string email = "johndoe@email.com";
-
-    // Изменяемое автоматическое свойство
-    public string PhoneNumber { get; set; }
-
-    // Автоматические свойства
-    public string FirstName { get; set; } = "John";
-    public string LastName { get; set; } = "Doe";
-    public int Age { get; set; } = 30;
-    public string Email { get { return email; } }
-
-    // Статическое автоматическое свойство
-    public static int PersonCount { get { return personCount; } }
-
-    // Конструкторы класса
-    public Person()
+    public Person(string name, int age)
     {
-        personCount++;
-        PhoneNumber = DefaultPhoneNumber;
-    }
-
-    public Person(string firstName, string lastName, int age, string phone, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
+        Name = name;
         Age = age;
-        PhoneNumber = phone;
-        personCount++;
-    }
-
-    // Методы класса
-    public void DisplayContactInfo()
-    {
-        Console.WriteLine($"Name: {FirstName} {LastName}");
-        Console.WriteLine($"Age: {Age}");
-        Console.WriteLine($"Phone: {PhoneNumber}");
-        Console.WriteLine($"Email: {Email}");
     }
 }
 
@@ -918,39 +722,21 @@ class Program
 {
     static void Main(string[] args)
     {
-        Person person1 = new Person();
-        Person person2 = new Person("Alice", "Smith", 25, "555-987-6543", "alice@email.com");
+        // Создание объекта с использованием конструктора
+        Person person = new Person("John Doe", 30);
 
-        person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.PersonCount}");
+        // Вывод значений свойств
+        Console.WriteLine($"Имя: {person.Name}, Возраст: {person.Age}");
 
-        person1.PhoneNumber = "555-999-0000";
-        person1.DisplayContactInfo();
-        Console.WriteLine($"Total persons created: {Person.PersonCount}");
+        Console.ReadKey();
     }
 }
 
 ```
-В этом примере использованы автоматические свойства для определения свойств `FirstName`, `LastName`, `Age` и `Email`, а также использовано автоматическое свойство `PhoneNumber` для представления номера телефона. Инициализация значений осуществляется через конструкторы класса.
-### Null-conditional оператор
-Понимание Null-conditional оператора в C# является важным аспектом разработки на этом языке. Null-conditional оператор предоставляет удобный способ безопасной навигации по цепочкам объектов, когда один или несколько из них могут быть равны `null`. Он предотвращает возникновение исключений `NullReferenceException` при попытке доступа к членам объекта, который может быть `null`.
+Использование автоматических свойств в C# во многом аналогично созданию приватных полей и публичных методов-сеттеров и геттеров. Однако автоматические свойства значительно упрощают синтаксис, делая код более читаемым и понятным, особенно в случае, когда у класса большое количество свойств.
 
-Синтаксис Null-conditional оператора в C#:
+Использование автоматических свойств также позволяет избежать дублирования кода и уменьшить вероятность ошибок при написании сеттеров и геттеров вручную.
 
-`object?.SomeMember`
-
-где:
-
-- `object` - объект, доступ к членам которого может быть небезопасным из-за возможного значения `null`.
-- `SomeMember` - член объекта, к которому происходит доступ, если `object` не равен `null`.
-
-Основные преимущества использования Null-conditional оператора:
-
-1. **Безопасная навигация**: Позволяет избежать исключений при доступе к членам объекта, который может быть `null`.
-2. **Улучшение читаемости кода**: Упрощает проверку на `null` и делает код более лаконичным и понятным.
-3. **Уменьшение сложности кода**: Позволяет сократить количество условий проверки на `null` и облегчить чтение и поддержку кода.
-
-Понимание и использование Null-conditional оператора поможет вам писать более безопасный и читаемый код, особенно когда имеется дело с цепочками объектов, которые могут быть `null`. Это важный инструмент для предотвращения ошибок и обеспечения более надежной работы ваших приложений.
 # Пространства имен
 Пространства имен (namespaces) в языке программирования C# используются для организации и группировки логически связанных классов, интерфейсов, делегатов и других типов. Они предоставляют средство для управления областями видимости и предотвращения конфликтов имен в больших проектах. Пространства имен также позволяют создавать иерархию и группировать код логически для улучшения его читаемости и обеспечения удобного доступа.
 
@@ -964,7 +750,7 @@ class Program
 
 Пример использования пространств имен в C#:
 
-```csharp
+```C#
 using System;
 
 namespace MyNamespace
@@ -998,6 +784,8 @@ class Program
 
         MyOtherNamespace.MyOtherClass myOtherObject = new MyOtherNamespace.MyOtherClass();
         myOtherObject.MyOtherMethod();
+
+        Console.ReadKey();
     }
 }
 ```
